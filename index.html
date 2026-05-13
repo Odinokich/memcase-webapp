@@ -15,12 +15,12 @@
 
         body {
             background: #0A0A0F;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: white;
             overflow-x: hidden;
         }
 
-        /* Киберпанк сетка */
+        /* Киберпанк фон */
         .cyber-grid {
             position: fixed;
             top: 0;
@@ -35,252 +35,378 @@
             z-index: 0;
         }
 
-        /* Скан-линия */
-        .scan-line {
-            position: fixed;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent, rgba(0, 255, 133, 0.08), transparent);
-            animation: scan 8s linear infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes scan {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-
-        /* Глитч-эффект для текста */
-        .glitch {
+        .container {
             position: relative;
-            animation: glitch-skew 3s infinite;
+            z-index: 2;
+            padding-bottom: 70px;
         }
 
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
+        /* Хедер */
+        .header {
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            border-bottom: 2px solid #00FF85;
+            position: sticky;
             top: 0;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00FF85, #B942FF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .balance {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .balance-item {
+            background: rgba(0, 255, 133, 0.1);
+            border: 1px solid rgba(0, 255, 133, 0.3);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .balance-item.coins { border-color: #00FF85; color: #00FF85; }
+        .balance-item.crystals { border-color: #B942FF; color: #B942FF; }
+
+        /* Навигация */
+        .nav {
+            position: fixed;
+            bottom: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(0, 255, 133, 0.2);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            z-index: 10;
         }
 
-        .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 #ff00c1;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
         }
 
-        .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 #00fff9;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        .nav-btn.active {
+            color: #00FF85;
+            transform: scale(1.1);
         }
 
-        @keyframes glitch-skew {
-            0%, 100% { transform: skew(0deg); }
-            95% { transform: skew(0deg); }
-            96% { transform: skew(5deg); }
-            97% { transform: skew(-5deg); }
-            98% { transform: skew(0deg); }
+        .nav-label {
+            font-size: 10px;
+            display: block;
+            margin-top: 4px;
         }
 
-        @keyframes glitch-anim {
-            0% { clip: rect(31px, 9999px, 94px, 0); }
-            20% { clip: rect(24px, 9999px, 81px, 0); }
-            40% { clip: rect(12px, 9999px, 45px, 0); }
-            60% { clip: rect(43px, 9999px, 76px, 0); }
-            80% { clip: rect(36px, 9999px, 63px, 0); }
-            100% { clip: rect(22px, 9999px, 88px, 0); }
+        /* Вкладки */
+        .tab-content {
+            display: none;
+            padding: 20px;
         }
 
-        @keyframes glitch-anim2 {
-            0% { clip: rect(65px, 9999px, 33px, 0); }
-            20% { clip: rect(92px, 9999px, 47px, 0); }
-            40% { clip: rect(72px, 9999px, 21px, 0); }
-            60% { clip: rect(15px, 9999px, 53px, 0); }
-            80% { clip: rect(38px, 9999px, 85px, 0); }
-            100% { clip: rect(54px, 9999px, 74px, 0); }
+        .tab-content.active {
+            display: block;
         }
 
-        /* Карточка с эффектом стекла */
-        .glass-card {
+        /* Карточки кейсов */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .case-card {
             background: rgba(20, 20, 30, 0.6);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 255, 133, 0.2);
-            border-radius: 20px;
+            border-radius: 24px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Анимации открытия кейса */
+        .case-card:active {
+            transform: scale(0.96);
+        }
+
+        .case-card.common { border-top: 3px solid #00FF85; }
+        .case-card.rare { border-top: 3px solid #B942FF; }
+        .case-card.epic { border-top: 3px solid #FFD700; }
+        .case-card.friend { border-top: 3px solid #FF6B6B; }
+
+        .case-icon { font-size: 48px; margin-bottom: 12px; }
+        .case-title { font-size: 16px; font-weight: bold; margin-bottom: 4px; }
+        .case-price { font-size: 12px; color: #00FF85; }
+        .case-cooldown { font-size: 10px; color: #888; margin-top: 8px; }
+
+        /* Анимации */
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
-            20%, 40%, 60%, 80% { transform: translateX(6px); }
+            0%,100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
         }
 
         @keyframes flash {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.5); background: rgba(0, 255, 133, 0.3); }
+            0%,100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); background: rgba(0,255,133,0.2); }
         }
 
         @keyframes reveal {
-            0% { opacity: 0; transform: scale(0) rotate(-180deg); }
-            50% { opacity: 0.5; transform: scale(1.1) rotate(0deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        .shake { animation: shake 0.5s ease-in-out; }
-        .flash { animation: flash 0.3s ease; }
-        .reveal { animation: reveal 0.6s cubic-bezier(0.34, 1.2, 0.64, 1); }
+        .shake { animation: shake 0.3s ease; }
+        .flash { animation: flash 0.2s ease; }
+        .reveal { animation: reveal 0.4s ease; }
 
-        /* Стили для скролла */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
-        ::-webkit-scrollbar-thumb { background: #00FF85; border-radius: 10px; }
+        /* Модальное окно */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        /* Адаптив */
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-            padding-bottom: 80px;
+        .modal-content {
+            background: rgba(20,20,30,0.9);
+            border: 2px solid #00FF85;
+            border-radius: 30px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: #00FF85;
+            transition: width 1s ease;
+        }
+
+        /* Карточка мема */
+        .meme-card {
+            background: rgba(20,20,30,0.9);
+            border-radius: 24px;
+            padding: 24px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .meme-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            object-fit: cover;
+            margin-bottom: 16px;
+        }
+
+        .rarity-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 10px 0;
+        }
+
+        /* Коллекция */
+        .collection-item {
+            background: rgba(20,20,30,0.6);
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Задания */
+        .task-card {
+            background: rgba(20,20,30,0.6);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .task-btn {
+            background: #00FF85;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        /* Профиль */
+        .profile-card {
+            background: linear-gradient(135deg, rgba(0,255,133,0.1), rgba(185,66,255,0.1));
+            border-radius: 30px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stat-card {
+            background: rgba(20,20,30,0.6);
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        button {
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="cyber-grid"></div>
-    <div class="scan-line"></div>
     
     <div class="container">
-        <!-- Шапка -->
-        <div class="glass-card mx-4 mt-4 p-4">
-            <div class="flex justify-between items-center">
-                <h1 class="text-2xl font-bold glitch" data-text="MEMCASE" style="color: #00FF85; text-shadow: 0 0 10px #00FF85;">MEMCASE</h1>
-                <div class="flex gap-3">
-                    <div class="px-3 py-1 rounded-lg" style="background: rgba(0,255,133,0.1); border: 1px solid #00FF85;">
-                        <span style="color: #00FF85;">🪙 <span id="coins">500</span></span>
-                    </div>
-                    <div class="px-3 py-1 rounded-lg" style="background: rgba(185,66,255,0.1); border: 1px solid #B942FF;">
-                        <span style="color: #B942FF;">💎 <span id="crystals">10</span></span>
-                    </div>
+        <!-- Хедер -->
+        <div class="header">
+            <h1>🔥 MEMCASE</h1>
+            <div class="balance">
+                <div class="balance-item coins">🪙 <span id="coins">500</span></div>
+                <div class="balance-item crystals">💎 <span id="crystals">10</span></div>
+                <div class="balance-item" style="border-color: #FFD700; color: #FFD700;">🎯 <span id="combo">0</span></div>
+            </div>
+        </div>
+
+        <!-- Кейсы -->
+        <div id="cases-tab" class="tab-content active">
+            <div class="cases-grid">
+                <div class="case-card common" data-case="common">
+                    <div class="case-icon">🎁</div>
+                    <div class="case-title">ОБЫЧНЫЙ</div>
+                    <div class="case-price">Бесплатно / 30 мин</div>
+                    <div class="case-cooldown" id="cooldown-text">Доступно</div>
+                </div>
+                <div class="case-card rare" data-case="rare">
+                    <div class="case-icon">💎</div>
+                    <div class="case-title">РЕДКИЙ</div>
+                    <div class="case-price">100 монет</div>
+                </div>
+                <div class="case-card epic" data-case="epic">
+                    <div class="case-icon">👑</div>
+                    <div class="case-title">ЭПИЧЕСКИЙ</div>
+                    <div class="case-price">10 кристаллов</div>
+                </div>
+                <div class="case-card friend" data-case="friend">
+                    <div class="case-icon">👥</div>
+                    <div class="case-title">ДРУЖЕСКИЙ</div>
+                    <div class="case-price">Пригласи друга</div>
+                </div>
+            </div>
+            <div id="result"></div>
+        </div>
+
+        <!-- Коллекция -->
+        <div id="collection-tab" class="tab-content">
+            <h3 style="margin-bottom: 16px;">📦 МОЯ КОЛЛЕКЦИЯ <span id="collection-count">0</span></h3>
+            <div id="collection-list"></div>
+            <button id="recycle-btn" style="width:100%; margin-top:16px; background: linear-gradient(135deg, #B942FF, #00FF85); border:none; padding:12px; border-radius:30px; font-weight:bold;">🔄 ОБМЕНЯТЬ ДУБЛИКАТЫ</button>
+        </div>
+
+        <!-- Задания -->
+        <div id="tasks-tab" class="tab-content">
+            <div class="task-card">
+                <h3>🎁 Ежедневный бонус</h3>
+                <p style="font-size:14px; color:#888;">+50 монет каждый день</p>
+                <button class="task-btn" id="daily-btn">Забрать</button>
+            </div>
+            <div class="task-card">
+                <h3>👥 Пригласи друга</h3>
+                <p style="font-size:14px; color:#888;">+100 монет за приглашение</p>
+                <button class="task-btn" id="invite-btn">Поделиться</button>
+            </div>
+            <div class="task-card">
+                <h3>⚡ Комбо-открытия</h3>
+                <p style="font-size:14px; color:#888;">5 кейсов подряд → +50 монет</p>
+                <p style="margin-top:8px;">Прогресс: <span id="combo-count">0</span>/5</p>
+            </div>
+            <div class="task-card">
+                <h3>🏆 Коллекционер</h3>
+                <p style="font-size:14px; color:#888;">20 уникальных мемов → +200 монет</p>
+                <p style="margin-top:8px;">Прогресс: <span id="collect-progress">0</span>/20</p>
+            </div>
+        </div>
+
+        <!-- Профиль -->
+        <div id="profile-tab" class="tab-content">
+            <div class="profile-card">
+                <div style="font-size:64px;">👤</div>
+                <h3 id="user-name">Игрок</h3>
+                <p style="color:#00FF85;" id="user-level">Уровень 1</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div>🎁</div>
+                    <div><strong id="opened-cases">0</strong></div>
+                    <div style="font-size:11px;">открыто</div>
+                </div>
+                <div class="stat-card">
+                    <div>📦</div>
+                    <div><strong id="unique-memes">0</strong></div>
+                    <div style="font-size:11px;">уникальных</div>
+                </div>
+                <div class="stat-card">
+                    <div>💰</div>
+                    <div><strong id="total-value">0</strong></div>
+                    <div style="font-size:11px;">стоимость</div>
+                </div>
+                <div class="stat-card">
+                    <div>🏆</div>
+                    <div><strong id="rank">Новичок</strong></div>
+                    <div style="font-size:11px;">ранг</div>
                 </div>
             </div>
         </div>
 
-        <!-- Вкладки -->
-        <div class="flex justify-around mx-4 mt-4 glass-card p-1">
-            <button class="tab-btn active" data-tab="cases" style="flex:1; padding: 10px; border-radius: 12px; transition: all 0.3s;">🎁 Кейсы</button>
-            <button class="tab-btn" data-tab="collection" style="flex:1; padding: 10px; border-radius: 12px; transition: all 0.3s;">📦 Коллекция</button>
-            <button class="tab-btn" data-tab="tasks" style="flex:1; padding: 10px; border-radius: 12px; transition: all 0.3s;">📋 Задания</button>
-            <button class="tab-btn" data-tab="profile" style="flex:1; padding: 10px; border-radius: 12px; transition: all 0.3s;">👤 Профиль</button>
-        </div>
-
-        <!-- Вкладка: Кейсы -->
-        <div id="cases-tab" class="tab-content active p-4">
-            <div class="grid grid-cols-2 gap-4">
-                <div class="case-card glass-card p-5 text-center cursor-pointer transition-all hover:scale-105 active:scale-95" data-case="common" style="border-top: 3px solid #00FF85;">
-                    <div class="text-6xl mb-3">🎁</div>
-                    <h3 class="font-bold text-lg">ОБЫЧНЫЙ</h3>
-                    <p class="text-sm" style="color: #00FF85;">Бесплатно / 30 мин</p>
-                    <p class="text-xs text-gray-500 mt-2" id="cooldown-text">Доступно</p>
-                </div>
-                <div class="case-card glass-card p-5 text-center cursor-pointer transition-all hover:scale-105 active:scale-95" data-case="rare" style="border-top: 3px solid #B942FF;">
-                    <div class="text-6xl mb-3">💎</div>
-                    <h3 class="font-bold text-lg">РЕДКИЙ</h3>
-                    <p class="text-sm" style="color: #B942FF;">100 монет</p>
-                </div>
-                <div class="case-card glass-card p-5 text-center cursor-pointer transition-all hover:scale-105 active:scale-95" data-case="epic" style="border-top: 3px solid #FFD700;">
-                    <div class="text-6xl mb-3">👑</div>
-                    <h3 class="font-bold text-lg">ЭПИЧЕСКИЙ</h3>
-                    <p class="text-sm" style="color: #FFD700;">10 кристаллов</p>
-                </div>
-                <div class="case-card glass-card p-5 text-center cursor-pointer transition-all hover:scale-105 active:scale-95" data-case="friend" style="border-top: 3px solid #FF6B6B;">
-                    <div class="text-6xl mb-3">👥</div>
-                    <h3 class="font-bold text-lg">ДРУЖЕСКИЙ</h3>
-                    <p class="text-sm" style="color: #FF6B6B;">Пригласи друга</p>
-                </div>
-            </div>
-            <div id="result-container" class="mt-6"></div>
-        </div>
-
-        <!-- Вкладка: Коллекция -->
-        <div id="collection-tab" class="tab-content p-4">
-            <h2 class="text-xl font-bold mb-4 glitch" data-text="КОЛЛЕКЦИЯ">📦 КОЛЛЕКЦИЯ <span id="collection-count">0</span></h2>
-            <div id="collection-list" class="space-y-2"></div>
-            <button id="recycle-btn" class="w-full mt-4 glass-card p-3 text-center font-bold" style="background: linear-gradient(135deg, #B942FF, #00FF85);">🔄 ОБМЕНЯТЬ ДУБЛИКАТЫ (3 → 50 монет)</button>
-        </div>
-
-        <!-- Вкладка: Задания -->
-        <div id="tasks-tab" class="tab-content p-4">
-            <div class="glass-card p-4 mb-3">
-                <h3 class="font-bold">🎁 Ежедневный бонус</h3>
-                <p class="text-sm text-gray-400">+50 монет каждый день</p>
-                <button id="daily-btn" class="mt-2 px-4 py-2 rounded-lg" style="background: #00FF85; color: #000; font-weight: bold;">Забрать</button>
-            </div>
-            <div class="glass-card p-4 mb-3">
-                <h3 class="font-bold">👥 Пригласи друга</h3>
-                <p class="text-sm text-gray-400">+100 монет за приглашение</p>
-                <button id="invite-btn" class="mt-2 px-4 py-2 rounded-lg" style="background: #B942FF; font-weight: bold;">Поделиться</button>
-            </div>
-            <div class="glass-card p-4 mb-3">
-                <h3 class="font-bold">⚡ Комбо-открытия</h3>
-                <p class="text-sm text-gray-400">Открой 5 кейсов подряд → +50 монет</p>
-                <p class="text-sm mt-2">Прогресс: <span id="combo-count">0</span>/5</p>
-            </div>
-            <div class="glass-card p-4">
-                <h3 class="font-bold">🏆 Мастер коллекционер</h3>
-                <p class="text-sm text-gray-400">Собери 20 уникальных мемов → +200 монет</p>
-                <p class="text-sm mt-2">Прогресс: <span id="collect-progress">0</span>/20</p>
-            </div>
-        </div>
-
-        <!-- Вкладка: Профиль -->
-        <div id="profile-tab" class="tab-content p-4">
-            <div class="glass-card p-6 text-center mb-4">
-                <div class="text-6xl mb-2">👤</div>
-                <h3 id="user-name" class="text-xl font-bold">Игрок</h3>
-                <p id="user-level" class="text-sm" style="color: #00FF85;">Уровень 1</p>
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="glass-card p-3 text-center">
-                    <div class="text-2xl">🎁</div>
-                    <div id="opened-cases" class="text-xl font-bold">0</div>
-                    <div class="text-xs text-gray-400">открыто кейсов</div>
-                </div>
-                <div class="glass-card p-3 text-center">
-                    <div class="text-2xl">📦</div>
-                    <div id="unique-memes" class="text-xl font-bold">0</div>
-                    <div class="text-xs text-gray-400">уникальных мемов</div>
-                </div>
-                <div class="glass-card p-3 text-center">
-                    <div class="text-2xl">💰</div>
-                    <div id="total-value" class="text-xl font-bold">0</div>
-                    <div class="text-xs text-gray-400">стоимость</div>
-                </div>
-                <div class="glass-card p-3 text-center">
-                    <div class="text-2xl">🏆</div>
-                    <div id="rank" class="text-xl font-bold">Новичок</div>
-                    <div class="text-xs text-gray-400">ранг</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Модальное окно открытия -->
-    <div id="opening-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; flex-direction: column;">
-        <div class="glass-card p-8 text-center">
-            <div style="font-size: 60px; margin-bottom: 20px;">🎲</div>
-            <h3 style="font-size: 24px; margin-bottom: 10px;">ВСКРЫТИЕ...</h3>
-            <div style="width: 200px; height: 4px; background: #333; border-radius: 2px; overflow: hidden;">
-                <div id="loading-progress" style="width: 0%; height: 100%; background: #00FF85; transition: width 1s ease;"></div>
-            </div>
+        <!-- Навигация -->
+        <div class="nav">
+            <button class="nav-btn active" data-tab="cases">🎁<span class="nav-label">Кейсы</span></button>
+            <button class="nav-btn" data-tab="collection">📦<span class="nav-label">Коллекция</span></button>
+            <button class="nav-btn" data-tab="tasks">📋<span class="nav-label">Задания</span></button>
+            <button class="nav-btn" data-tab="profile">👤<span class="nav-label">Профиль</span></button>
         </div>
     </div>
 
@@ -288,8 +414,6 @@
         let tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
-        tg.setHeaderColor('#0A0A0F');
-        tg.setBackgroundColor('#0A0A0F');
 
         let user = tg.initDataUnsafe?.user || { first_name: 'Игрок', id: Math.floor(Math.random() * 1000000) };
         document.getElementById('user-name').innerText = user.first_name;
@@ -302,36 +426,14 @@
         let lastDailyBonus = null;
         let isOpening = false;
 
-        // 50 МЕМОВ
         const MEMES = [
             { title: "Черемша", rarity: "common", price: 15, preview: "https://media.tenor.com/5iWwZrXqWl0AAAAi/cat-meme.gif", link: "https://tiktok.com/@memes/1" },
             { title: "Ждун", rarity: "common", price: 12, preview: "https://media.tenor.com/3oR7wX7K5VkAAAAi/meme-funny.gif", link: "https://youtube.com/shorts/1" },
             { title: "Лойс", rarity: "common", price: 10, preview: "https://media.tenor.com/4sXxWrVqY7kAAAAi/funny-cat.gif", link: "https://tiktok.com/@memes/4" },
-            { title: "Батон", rarity: "common", price: 18, preview: "https://media.tenor.com/6yWwZrXqWl0AAAAi/therapist.gif", link: "https://tiktok.com/@memes/3" },
-            { title: "Сосиська", rarity: "common", price: 20, preview: "https://media.tenor.com/7tYyWsXqZ8lAAAAi/grandma.gif", link: "https://tiktok.com/@memes/5" },
-            { title: "Печенька", rarity: "common", price: 14, preview: "https://media.tenor.com/8qXwR7VvX9kAAAAi/bollywood.gif", link: "https://tiktok.com/@memes/2" },
-            { title: "Кебаб", rarity: "common", price: 22, preview: "https://media.tenor.com/1pXqLvWq7YgAAAAi/meme-year.gif", link: "https://youtube.com/shorts/2" },
-            { title: "Шаурма", rarity: "common", price: 16, preview: "https://media.tenor.com/2pYqLvXq6YgAAAAi/viral.gif", link: "https://youtube.com/shorts/3" },
-            { title: "Хлебушек", rarity: "common", price: 11, preview: "https://media.tenor.com/3pXqLwYq7ZgAAAAi/funny-dog.gif", link: "https://tiktok.com/@memes/6" },
-            { title: "Курочка", rarity: "common", price: 19, preview: "https://media.tenor.com/4qXrLzYq8AhAAAAi/cat-funny.gif", link: "https://tiktok.com/@memes/7" },
-            { title: "Борщ", rarity: "common", price: 13, preview: "https://media.tenor.com/5rYsMaZr9BiAAAAi/meme-funny.gif", link: "https://tiktok.com/@memes/8" },
-            { title: "Салат", rarity: "common", price: 17, preview: "https://media.tenor.com/6sZtNbZs0CjAAAAi/funny-cat.gif", link: "https://tiktok.com/@memes/9" },
-            { title: "Компот", rarity: "common", price: 15, preview: "https://media.tenor.com/7tAuOcAt1DkAAAAi/meme.gif", link: "https://tiktok.com/@memes/10" },
-            { title: "Плов", rarity: "common", price: 21, preview: "https://media.tenor.com/8uBvPdBu2ElAAAAi/funny.gif", link: "https://tiktok.com/@memes/11" },
-            { title: "Лапша", rarity: "common", price: 14, preview: "https://media.tenor.com/9vCwQeCv3FmAAAAi/cat.gif", link: "https://tiktok.com/@memes/12" },
-            { title: "TikTok Болливуд", rarity: "rare", price: 50, preview: "https://media.tenor.com/8qXwR7VvX9kAAAAi/bollywood.gif", link: "https://tiktok.com/@memes/13" },
-            { title: "Подслушано у психолога", rarity: "rare", price: 65, preview: "https://media.tenor.com/6yWwZrXqWl0AAAAi/therapist.gif", link: "https://tiktok.com/@memes/14" },
-            { title: "Бабушка узнала", rarity: "rare", price: 45, preview: "https://media.tenor.com/7tYyWsXqZ8lAAAAi/grandma.gif", link: "https://tiktok.com/@memes/15" },
-            { title: "POV: учитель", rarity: "rare", price: 55, preview: "https://media.tenor.com/4qXrLzYq8AhAAAAi/cat-funny.gif", link: "https://tiktok.com/@memes/16" },
-            { title: "Жиза", rarity: "rare", price: 70, preview: "https://media.tenor.com/5rYsMaZr9BiAAAAi/meme-funny.gif", link: "https://tiktok.com/@memes/17" },
-            { title: "Кринж", rarity: "rare", price: 60, preview: "https://media.tenor.com/6sZtNbZs0CjAAAAi/funny-cat.gif", link: "https://tiktok.com/@memes/18" },
-            { title: "Рофл", rarity: "rare", price: 75, preview: "https://media.tenor.com/7tAuOcAt1DkAAAAi/meme.gif", link: "https://tiktok.com/@memes/19" },
-            { title: "Хайп", rarity: "rare", price: 80, preview: "https://media.tenor.com/8uBvPdBu2ElAAAAi/funny.gif", link: "https://tiktok.com/@memes/20" },
+            { title: "TikTok Болливуд", rarity: "rare", price: 50, preview: "https://media.tenor.com/8qXwR7VvX9kAAAAi/bollywood.gif", link: "https://tiktok.com/@memes/2" },
+            { title: "Подслушано", rarity: "rare", price: 65, preview: "https://media.tenor.com/6yWwZrXqWl0AAAAi/therapist.gif", link: "https://tiktok.com/@memes/3" },
             { title: "ВИРУС 2024", rarity: "legendary", price: 200, preview: "https://media.tenor.com/2pYqLvXq6YgAAAAi/viral.gif", link: "https://youtube.com/shorts/viral" },
-            { title: "Мем года", rarity: "legendary", price: 250, preview: "https://media.tenor.com/1pXqLvWq7YgAAAAi/meme-year.gif", link: "https://youtube.com/shorts/meme" },
-            { title: "Гарри Поттер", rarity: "legendary", price: 180, preview: "https://media.tenor.com/3pXqLwYq7ZgAAAAi/funny-dog.gif", link: "https://youtube.com/shorts/4" },
-            { title: "Шрекс", rarity: "legendary", price: 220, preview: "https://media.tenor.com/9vCwQeCv3FmAAAAi/cat.gif", link: "https://youtube.com/shorts/5" },
-            { title: "Кинг Конг", rarity: "legendary", price: 300, preview: "https://media.tenor.com/4qXrLzYq8AhAAAAi/cat-funny.gif", link: "https://youtube.com/shorts/6" }
+            { title: "Мем года", rarity: "legendary", price: 250, preview: "https://media.tenor.com/1pXqLvWq7YgAAAAi/meme-year.gif", link: "https://youtube.com/shorts/meme" }
         ];
 
         function saveData() {
@@ -357,44 +459,32 @@
         function updateUI() {
             document.getElementById('coins').innerText = balance.coins;
             document.getElementById('crystals').innerText = balance.crystals;
+            document.getElementById('combo').innerText = combo;
+            document.getElementById('combo-count').innerText = combo;
             document.getElementById('opened-cases').innerText = openedCases;
             
             let uniqueCount = new Set(collection.map(m => m.title)).size;
             document.getElementById('unique-memes').innerText = uniqueCount;
             document.getElementById('collection-count').innerText = collection.length;
             document.getElementById('collect-progress').innerText = uniqueCount;
-            document.getElementById('combo-count').innerText = combo;
             
-            let totalValue = collection.reduce((sum, m) => sum + (m.price || 0), 0);
+            let totalValue = collection.reduce((sum, m) => sum + m.price, 0);
             document.getElementById('total-value').innerText = totalValue;
             
             let level = Math.floor(uniqueCount / 5) + 1;
             document.getElementById('user-level').innerText = `Уровень ${level}`;
             
             let ranks = ['Новичок', 'Мемер', 'Рофлан', 'Кринж-лорд', 'Мем-король'];
-            let rankIndex = Math.min(Math.floor(uniqueCount / 10), 4);
-            document.getElementById('rank').innerText = ranks[rankIndex];
+            document.getElementById('rank').innerText = ranks[Math.min(Math.floor(uniqueCount / 10), 4)];
             
             renderCollection();
             updateCooldown();
         }
 
-        function getRarityClass(rarity) {
-            if (rarity === 'common') return 'common';
-            if (rarity === 'rare') return 'rare';
-            return 'legendary';
-        }
-
-        function getRarityColor(rarity) {
-            if (rarity === 'common') return '#00FF85';
-            if (rarity === 'rare') return '#B942FF';
-            return '#FFD700';
-        }
-
         function renderCollection() {
             const container = document.getElementById('collection-list');
             if (collection.length === 0) {
-                container.innerHTML = '<div class="glass-card p-8 text-center text-gray-500">🎁 Нет мемов<br>Открой кейс!</div>';
+                container.innerHTML = '<div style="text-align:center; color:#666; padding:40px;">🎁 Нет мемов<br>Открой кейс!</div>';
                 return;
             }
             
@@ -402,46 +492,40 @@
             collection.forEach(m => counts[m.title] = (counts[m.title] || 0) + 1);
             
             let unique = [];
-            let titles = new Set();
+            let seen = new Set();
             for (let m of collection) {
-                if (!titles.has(m.title)) {
-                    titles.add(m.title);
+                if (!seen.has(m.title)) {
+                    seen.add(m.title);
                     unique.push(m);
                 }
             }
             
             container.innerHTML = unique.map(meme => `
-                <div class="glass-card p-3 flex items-center gap-3">
-                    <img src="${meme.preview}" style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover;">
-                    <div style="flex: 1;">
-                        <div style="font-weight: bold;">${meme.title}</div>
-                        <span style="color: ${getRarityColor(meme.rarity)}; font-size: 12px;">${meme.rarity}</span>
-                        <div style="color: #00FF85; font-size: 11px;">💰 ${meme.price} монет</div>
+                <div class="collection-item">
+                    <img src="${meme.preview}" style="width:50px;height:50px;border-radius:12px;object-fit:cover;">
+                    <div style="flex:1">
+                        <div style="font-weight:bold">${meme.title}</div>
+                        <div style="font-size:11px; color:${meme.rarity === 'common' ? '#00FF85' : (meme.rarity === 'rare' ? '#B942FF' : '#FFD700')}">${meme.rarity} | 💰 ${meme.price}</div>
                     </div>
-                    <div>
-                        ${counts[meme.title] > 1 ? `<span style="color: #FFD700;">×${counts[meme.title]}</span>` : ''}
-                        <button class="sell-btn" data-title="${meme.title}" style="background: none; border: 1px solid #FFD700; color: #FFD700; padding: 4px 12px; border-radius: 12px; margin-left: 8px; cursor: pointer;">Продать</button>
-                    </div>
+                    ${counts[meme.title] > 1 ? `<span style="color:#FFD700;">×${counts[meme.title]}</span>` : ''}
+                    <button class="sell-btn" data-title="${meme.title}" style="background:none; border:1px solid #FFD700; color:#FFD700; padding:4px 12px; border-radius:12px;">Продать</button>
                 </div>
             `).join('');
             
             document.querySelectorAll('.sell-btn').forEach(btn => {
-                btn.addEventListener('click', () => sellMeme(btn.dataset.title));
+                btn.onclick = () => {
+                    let idx = collection.findIndex(m => m.title === btn.dataset.title);
+                    if (idx !== -1) {
+                        let meme = collection[idx];
+                        let price = Math.floor(meme.price / 2);
+                        balance.coins += price;
+                        collection.splice(idx, 1);
+                        saveData();
+                        updateUI();
+                        tg.showAlert(`💰 Продано за ${price} монет!`);
+                    }
+                };
             });
-        }
-
-        function sellMeme(title) {
-            let index = collection.findIndex(m => m.title === title);
-            if (index !== -1) {
-                let meme = collection[index];
-                let sellPrice = Math.floor(meme.price / 2);
-                balance.coins += sellPrice;
-                collection.splice(index, 1);
-                saveData();
-                updateUI();
-                tg.showAlert(`💰 Ты продал "${title}" за ${sellPrice} монет!`);
-                tg.HapticFeedback.notificationOccurred('success');
-            }
         }
 
         function recycleDuplicates() {
@@ -452,94 +536,94 @@
             let newCollection = [];
             
             for (let title in counts) {
-                let duplicates = Math.floor(counts[title] / 3);
-                recycled += duplicates;
-                let keepCount = counts[title] % 3;
-                
-                for (let i = 0; i < keepCount; i++) {
-                    let meme = collection.find(m => m.title === title);
-                    if (meme) newCollection.push(meme);
+                let dup = Math.floor(counts[title] / 3);
+                recycled += dup;
+                let keep = counts[title] % 3;
+                for (let i = 0; i < keep; i++) {
+                    let m = collection.find(m => m.title === title);
+                    if (m) newCollection.push(m);
                 }
             }
             
-            if (recycled >= 1) {
+            if (recycled > 0) {
                 collection = newCollection;
-                let reward = recycled * 50;
-                balance.coins += reward;
+                balance.coins += recycled * 50;
                 saveData();
                 updateUI();
-                tg.showAlert(`🔄 Обменяно ${recycled * 3} дубликатов! +${reward} монет`);
-                tg.HapticFeedback.notificationOccurred('success');
+                tg.showAlert(`🔄 Обменяно ${recycled * 3} дубликатов! +${recycled * 50} монет`);
             } else {
-                tg.showAlert(`Нужно 3 дубликата для обмена!`);
+                tg.showAlert('Нужно 3 дубликата для обмена!');
             }
         }
 
         function updateCooldown() {
             if (lastOpenTime) {
-                const diff = 30 * 60 - (Date.now() - lastOpenTime) / 1000;
+                let diff = 1800 - (Date.now() - lastOpenTime) / 1000;
                 if (diff > 0) {
-                    const minutes = Math.floor(diff / 60);
-                    const seconds = Math.floor(diff % 60);
-                    document.getElementById('cooldown-text').innerText = `${minutes}:${seconds.toString().padStart(2,'0')}`;
+                    let m = Math.floor(diff / 60);
+                    let s = Math.floor(diff % 60);
+                    document.getElementById('cooldown-text').innerText = `${m}:${s.toString().padStart(2,'0')}`;
                     setTimeout(updateCooldown, 1000);
                 } else {
                     document.getElementById('cooldown-text').innerText = 'Доступно';
                     lastOpenTime = null;
                     saveData();
                 }
-            } else {
-                document.getElementById('cooldown-text').innerText = 'Доступно';
             }
         }
 
-        async function openCase(caseType) {
+        async function openCase(type) {
             if (isOpening) return;
             
-            if (caseType === 'rare') {
-                if (balance.coins < 100) { tg.showAlert('❌ Недостаточно монет!'); return; }
+            if (type === 'rare') {
+                if (balance.coins < 100) { tg.showAlert('❌ Не хватает монет!'); return; }
                 balance.coins -= 100;
-            } else if (caseType === 'epic') {
-                if (balance.crystals < 10) { tg.showAlert('❌ Недостаточно кристаллов!'); return; }
+            } else if (type === 'epic') {
+                if (balance.crystals < 10) { tg.showAlert('❌ Не хватает кристаллов!'); return; }
                 balance.crystals -= 10;
-            } else if (caseType === 'common') {
-                if (lastOpenTime && (Date.now() - lastOpenTime) < 30 * 60 * 1000) {
-                    const remaining = Math.ceil((30 * 60 * 1000 - (Date.now() - lastOpenTime)) / 60000);
-                    tg.showAlert(`⏰ Кейс будет доступен через ${remaining} минут!`);
+            } else if (type === 'common') {
+                if (lastOpenTime && Date.now() - lastOpenTime < 30 * 60 * 1000) {
+                    let rem = Math.ceil((30*60*1000 - (Date.now()-lastOpenTime)) / 60000);
+                    tg.showAlert(`⏰ Доступно через ${rem} мин`);
                     return;
                 }
                 lastOpenTime = Date.now();
-            } else if (caseType === 'friend') {
-                let link = `https://t.me/memcasek_bot?start=ref_${user.id}`;
-                navigator.clipboard.writeText(link);
-                tg.showAlert('👥 Ссылка-приглашение скопирована! Отправь другу. Когда друг зарегистрируется, вы оба получите бонус!');
+            } else if (type === 'friend') {
+                navigator.clipboard.writeText(`https://t.me/memcasek_bot?start=ref_${user.id}`);
+                tg.showAlert('👥 Ссылка скопирована!');
                 return;
             }
             
             tg.HapticFeedback.impactOccurred('heavy');
             isOpening = true;
             
-            let caseCard = document.querySelector(`.case-card[data-case="${caseType}"]`);
-            if (caseCard) {
-                caseCard.classList.add('shake', 'flash');
-                setTimeout(() => caseCard.classList.remove('shake', 'flash'), 500);
+            let card = document.querySelector(`.case-card.${type}`);
+            if (card) {
+                card.classList.add('shake', 'flash');
+                setTimeout(() => card.classList.remove('shake', 'flash'), 400);
             }
             
-            let modal = document.getElementById('opening-modal');
-            let progress = document.getElementById('loading-progress');
-            modal.style.display = 'flex';
-            progress.style.width = '0%';
-            setTimeout(() => { progress.style.width = '100%'; }, 100);
+            let modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div style="font-size:60px;">🎲</div>
+                    <h3>ВСКРЫТИЕ...</h3>
+                    <div class="loading-bar"><div class="loading-progress"></div></div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.querySelector('.loading-progress').style.width = '100%', 100);
             
             setTimeout(() => {
-                let availableMemes = MEMES.filter(m => {
-                    if (caseType === 'common') return m.rarity === 'common';
-                    if (caseType === 'rare') return m.rarity === 'common' || m.rarity === 'rare';
+                let available = MEMES.filter(m => {
+                    if (type === 'common') return m.rarity === 'common';
+                    if (type === 'rare') return m.rarity === 'common' || m.rarity === 'rare';
                     return true;
                 });
+                let meme = available[Math.floor(Math.random() * available.length)];
                 
-                let randomMeme = availableMemes[Math.floor(Math.random() * availableMemes.length)];
-                collection.push({...randomMeme});
+                collection.push({...meme});
                 openedCases++;
                 combo++;
                 balance.coins += 10;
@@ -552,78 +636,62 @@
                 
                 saveData();
                 updateUI();
-                modal.style.display = 'none';
+                modal.remove();
                 
-                let container = document.getElementById('result-container');
-                let rarityClass = getRarityClass(randomMeme.rarity);
-                let rarityColor = getRarityColor(randomMeme.rarity);
-                
-                container.innerHTML = `
-                    <div class="glass-card p-6 text-center reveal" style="border: 2px solid ${rarityColor};">
-                        <img src="${randomMeme.preview}" style="width: 200px; height: 200px; border-radius: 20px; object-fit: cover; margin: 0 auto 20px;">
-                        <h2 class="text-2xl font-bold mb-2">${randomMeme.title}</h2>
-                        <div class="rarity-badge" style="background: ${rarityColor}20; color: ${rarityColor}; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 10px;">${randomMeme.rarity}</div>
-                        <p class="text-neon-green mb-4">💰 Стоимость: ${randomMeme.price} монет</p>
-                        <a href="${randomMeme.link}" target="_blank" class="inline-block px-6 py-3 rounded-full font-bold" style="background: ${rarityColor}; color: #000;">🎬 Смотреть оригинал</a>
-                        <button onclick="document.getElementById('result-container').innerHTML = ''" class="mt-4 px-6 py-2 rounded-full" style="background: rgba(255,255,255,0.1);">✖ Закрыть</button>
+                document.getElementById('result').innerHTML = `
+                    <div class="meme-card reveal" style="border:2px solid ${meme.rarity === 'common' ? '#00FF85' : (meme.rarity === 'rare' ? '#B942FF' : '#FFD700')}">
+                        <img src="${meme.preview}" class="meme-image">
+                        <h2>${meme.title}</h2>
+                        <div class="rarity-badge" style="background:${meme.rarity === 'common' ? '#00FF8520' : (meme.rarity === 'rare' ? '#B942FF20' : '#FFD70020')}; color:${meme.rarity === 'common' ? '#00FF85' : (meme.rarity === 'rare' ? '#B942FF' : '#FFD700')}">${meme.rarity}</div>
+                        <p style="color:#00FF85;">💰 ${meme.price} монет</p>
+                        <a href="${meme.link}" target="_blank" style="display:inline-block; margin-top:12px; background:#00FF85; color:#000; padding:10px 24px; border-radius:30px; text-decoration:none; font-weight:bold;">🎬 Смотреть</a>
+                        <div><button onclick="document.getElementById('result').innerHTML = ''" style="margin-top:16px; background:none; border:1px solid #666; padding:8px 24px; border-radius:30px;">Закрыть</button></div>
                     </div>
                 `;
                 
-                if (randomMeme.rarity !== 'common') {
+                if (meme.rarity !== 'common') {
                     confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                 }
                 
-                tg.sendData(JSON.stringify({ action: 'open_case', type: caseType, meme: randomMeme.title }));
                 isOpening = false;
             }, 1000);
         }
 
         function dailyBonus() {
-            if (lastDailyBonus && (Date.now() - lastDailyBonus) < 24 * 60 * 60 * 1000) {
-                tg.showAlert('Ты уже забирал бонус сегодня! Возвращайся завтра');
+            if (lastDailyBonus && Date.now() - lastDailyBonus < 24 * 60 * 60 * 1000) {
+                tg.showAlert('Бонус уже получен сегодня!');
                 return;
             }
             lastDailyBonus = Date.now();
             balance.coins += 50;
             saveData();
             updateUI();
-            tg.showAlert('🎁 +50 монет! Завтра будет новый бонус!');
-            tg.HapticFeedback.notificationOccurred('success');
-        }
-
-        function inviteFriend() {
-            let link = `https://t.me/memcasek_bot?start=ref_${user.id}`;
-            navigator.clipboard.writeText(link);
-            tg.showAlert('📎 Ссылка скопирована! Поделись с друзьями');
+            tg.showAlert('🎁 +50 монет!');
         }
 
         // Навигация
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(b => {
-                    b.style.background = 'transparent';
-                    b.style.color = '#fff';
-                });
-                btn.style.background = 'rgba(0,255,133,0.1)';
-                btn.style.color = '#00FF85';
-                
-                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-                document.getElementById(`${btn.dataset.tab}-tab`).classList.add('active');
-            });
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                document.getElementById(btn.dataset.tab + '-tab').classList.add('active');
+            };
         });
         
         document.querySelectorAll('.case-card').forEach(card => {
-            card.addEventListener('click', () => openCase(card.dataset.case));
+            card.onclick = () => openCase(card.dataset.case);
         });
         
-        document.getElementById('recycle-btn').addEventListener('click', recycleDuplicates);
-        document.getElementById('daily-btn').addEventListener('click', dailyBonus);
-        document.getElementById('invite-btn').addEventListener('click', inviteFriend);
+        document.getElementById('recycle-btn').onclick = recycleDuplicates;
+        document.getElementById('daily-btn').onclick = dailyBonus;
+        document.getElementById('invite-btn').onclick = () => {
+            navigator.clipboard.writeText(`https://t.me/memcasek_bot?start=ref_${user.id}`);
+            tg.showAlert('📎 Ссылка скопирована!');
+        };
         
         loadData();
-        
-        // Активация первой вкладки
-        document.querySelector('.tab-btn').click();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
 </body>
 </html>
