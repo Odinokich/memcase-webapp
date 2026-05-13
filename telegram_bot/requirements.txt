@@ -1,0 +1,4 @@
+﻿aiogram==3.13.0
+python-dotenv
+Flask==2.2.2
+gunicorn==20.1.0
