@@ -14,9 +14,23 @@
         @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
         .noise { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.04"/></svg>'); pointer-events: none; z-index: 2; }
         .container { position: relative; z-index: 10; max-width: 500px; margin: 0 auto; padding-bottom: 75px; }
+        
+        /* КРУТАЯ АНИМАЦИЯ ДЛЯ ЛОГОТИПА */
         .header { background: rgba(5,5,5,0.8); backdrop-filter: blur(20px); padding: 18px 20px; border-bottom: 1px solid rgba(0,255,133,0.3); position: sticky; top: 0; z-index: 20; }
-        .logo { font-size: 26px; font-weight: 900; background: linear-gradient(135deg, #00FF85, #FF00FF, #00F0FF); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 2px; animation: glitch 3s infinite; }
-        @keyframes glitch { 0%,100% { text-shadow: 0 0 5px #00FF85; } 96% { text-shadow: -2px 0 #FF00FF, 2px 0 #00F0FF; } 97% { text-shadow: 2px 0 #FF00FF, -2px 0 #00F0FF; } }
+        .logo { font-size: 28px; font-weight: 900; letter-spacing: 3px; position: relative; display: inline-block; cursor: pointer; }
+        .logo span { position: relative; display: inline-block; animation: neonPulse 2s ease-in-out infinite; }
+        .logo span:nth-child(1) { animation-delay: 0s; color: #00FF85; text-shadow: 0 0 5px #00FF85, 0 0 10px #00FF85; }
+        .logo span:nth-child(2) { animation-delay: 0.1s; color: #00FF85; text-shadow: 0 0 5px #00FF85, 0 0 10px #00FF85; }
+        .logo span:nth-child(3) { animation-delay: 0.2s; color: #FF00FF; text-shadow: 0 0 5px #FF00FF, 0 0 10px #FF00FF; }
+        .logo span:nth-child(4) { animation-delay: 0.3s; color: #00F0FF; text-shadow: 0 0 5px #00F0FF, 0 0 10px #00F0FF; }
+        .logo span:nth-child(5) { animation-delay: 0.4s; color: #00FF85; text-shadow: 0 0 5px #00FF85, 0 0 10px #00FF85; }
+        .logo span:nth-child(6) { animation-delay: 0.5s; color: #FFD700; text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700; }
+        .logo span:nth-child(7) { animation-delay: 0.6s; color: #FF00FF; text-shadow: 0 0 5px #FF00FF, 0 0 10px #FF00FF; }
+        .logo span:nth-child(8) { animation-delay: 0.7s; color: #00FF85; text-shadow: 0 0 5px #00FF85, 0 0 10px #00FF85; }
+        @keyframes neonPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); text-shadow: 0 0 15px currentColor, 0 0 25px currentColor; } }
+        .logo::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #00FF85, #FF00FF, #00F0FF, transparent); transform: translateY(-50%); animation: scanLine 3s linear infinite; opacity: 0.5; }
+        @keyframes scanLine { 0% { transform: translateX(-100%) translateY(-50%); } 100% { transform: translateX(100%) translateY(-50%); } }
+        
         .balance-row { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
         .balance-item { background: rgba(0,255,133,0.1); border: 1px solid rgba(0,255,133,0.4); padding: 6px 14px; border-radius: 30px; font-size: 13px; font-weight: 600; backdrop-filter: blur(5px); }
         .balance-item.coins { border-color: #00FF85; color: #00FF85; box-shadow: 0 0 8px rgba(0,255,133,0.3); }
@@ -82,7 +96,9 @@
 
     <div class="container">
         <div class="header">
-            <div class="logo">🔥 MEMCASE</div>
+            <div class="logo">
+                <span>M</span><span>E</span><span>M</span><span>C</span><span>A</span><span>S</span><span>E</span>
+            </div>
             <div class="balance-row">
                 <div class="balance-item coins">🪙 <span id="coins">500</span></div>
                 <div class="balance-item crystals">💎 <span id="crystals">10</span></div>
@@ -167,7 +183,7 @@
         let bonusAvailableAt = null;
         let bonusActive = false;
 
-        // Редкие мемы (только для эпических и рискованных кейсов)
+        // Мемы
         const LEGENDARY_MEMES = [
             { title: "ВИРУС 2024", rarity: "legendary", price: 500, preview: "https://media.tenor.com/2pYqLvXq6YgAAAAi/viral.gif", link: "https://youtube.com/shorts/viral" },
             { title: "Мем года", rarity: "legendary", price: 600, preview: "https://media.tenor.com/1pXqLvWq7YgAAAAi/meme-year.gif", link: "https://youtube.com/shorts/meme" },
@@ -198,7 +214,6 @@
             { title: "Собака-радость", rarity: "common", price: 16, preview: "https://media.tenor.com/4sXxWrVqY7kAAAAi/funny-cat.gif", link: "https://tiktok.com/@memes/7" }
         ];
 
-        // Кейсы с правильными шансами
         const CASES = [
             { id: "free", name: "БЕСПЛАТНЫЙ", icon: "🎁", price: 0, priceType: "free", cooldown: 4 * 60 * 60, cooldownText: "4 часа", getMeme: () => { let r = Math.random() * 100; if (r < 85) return COMMON_MEMES[Math.floor(Math.random() * COMMON_MEMES.length)]; else return RARE_MEMES[Math.floor(Math.random() * RARE_MEMES.length)]; }, limitDaily: 6, color: "#00FF85" },
             { id: "common", name: "ОБЫЧНЫЙ", icon: "📦", price: 50, priceType: "coins", cooldown: 0, getMeme: () => { let r = Math.random() * 100; if (r < 75) return COMMON_MEMES[Math.floor(Math.random() * COMMON_MEMES.length)]; else return RARE_MEMES[Math.floor(Math.random() * RARE_MEMES.length)]; }, limitDaily: 999, color: "#00FF85" },
@@ -400,7 +415,7 @@
             }
         }
 
-        function showFullscreenResult(meme, onClose) {
+        function showFullscreenResult(meme) {
             let rarityColor = meme.rarity === 'common' ? '#00FF85' : (meme.rarity === 'rare' ? '#FF00FF' : (meme.rarity === 'epic' ? '#FFD700' : '#FF4500'));
             
             let resultDiv = document.createElement('div');
@@ -422,12 +437,10 @@
             
             resultDiv.querySelector('.btn-take').onclick = () => {
                 resultDiv.remove();
-                if (onClose) onClose(false);
             };
             
             resultDiv.querySelector('.btn-sell').onclick = () => {
                 balance.coins += meme.price;
-                // Удаляем мем из коллекции (продажа)
                 let idx = collection.findIndex(m => m.title === meme.title && m.rarity === meme.rarity);
                 if (idx !== -1) collection.splice(idx, 1);
                 saveData();
@@ -435,7 +448,6 @@
                 tg.showAlert(`💰 Продано за ${meme.price} монет!`);
                 tg.HapticFeedback.notificationOccurred('success');
                 resultDiv.remove();
-                if (onClose) onClose(true);
             };
         }
 
@@ -518,11 +530,7 @@
                     canvasConfetti({ particleCount: 300, spread: 100, origin: { y: 0.6 }, colors: ['#00FF85', '#FF00FF', '#00F0FF', '#FFD700'] });
                 }
                 
-                showFullscreenResult(meme, (sold) => {
-                    if (!sold) {
-                        updateUI();
-                    }
-                });
+                showFullscreenResult(meme);
             }, 1000);
         }
 
@@ -628,26 +636,7 @@
         }
 
         function buyCrystals() {
-            let starsAmount = prompt('⭐ Введите количество Stars для покупки (1 Star = 1 кристалл):\nДоступно: 5, 10, 25, 50, 100, 250, 500, 1000', '5');
-            if (!starsAmount) return;
-            starsAmount = parseInt(starsAmount);
-            let validAmounts = [5, 10, 25, 50, 100, 250, 500, 1000];
-            if (!validAmounts.includes(starsAmount)) {
-                tg.showAlert('❌ Доступные суммы: 5, 10, 25, 50, 100, 250, 500, 1000 Stars');
-                return;
-            }
-            
-            // Симуляция покупки через Telegram Stars
-            tg.showConfirm(`⭐ Подтвердите покупку ${starsAmount} Stars за ${starsAmount} кристаллов?`, (confirmed) => {
-                if (confirmed) {
-                    balance.crystals += starsAmount;
-                    balance.stars += starsAmount;
-                    saveData();
-                    updateUI();
-                    tg.showAlert(`⭐ Куплено ${starsAmount} кристаллов! Спасибо за поддержку!`);
-                    tg.HapticFeedback.notificationOccurred('success');
-                }
-            });
+            tg.showAlert('⭐ Функция покупки кристаллов будет доступна в следующем обновлении через Telegram Stars API');
         }
 
         function showReferralLink() {
