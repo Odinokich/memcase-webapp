@@ -1,7 +1,4 @@
-﻿{
+{
   "name": "memcase-webapp",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "serve ."
-  }
+  "version": "1.0.0"
 }
