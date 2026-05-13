@@ -112,8 +112,8 @@
         }
         
         @keyframes flyIn {
-            from { opacity: 0; transform: translateY(50px) rotate(-5deg); }
-            to { opacity: 1; transform: translateY(0) rotate(0deg); }
+            from { opacity: 0; transform: translateY(50px) scale(0.8); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
         
         .shake { animation: shake 0.3s ease-in-out; }
@@ -142,51 +142,41 @@
             text-align: center;
         }
         
-        .loading-bar {
-            width: 200px;
-            height: 4px;
-            background: #333;
-            border-radius: 2px;
-            margin-top: 20px;
-            overflow: hidden;
-        }
-        
-        .loading-progress {
-            width: 0%;
-            height: 100%;
-            background: #00FF85;
-            animation: loading 1s ease forwards;
-        }
-        
-        @keyframes loading {
-            to { width: 100%; }
-        }
-        
         .meme-card {
             background: rgba(255,255,255,0.05);
             border-radius: 20px;
-            margin: 12px 20px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
-        .meme-preview {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
+        .meme-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
             object-fit: cover;
+            margin-bottom: 15px;
         }
         
-        .meme-info { flex: 1; }
-        .meme-title { font-size: 14px; font-weight: bold; margin-bottom: 5px; }
+        .meme-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .meme-price {
+            font-size: 16px;
+            color: #00FF85;
+            margin-bottom: 10px;
+        }
         
         .rarity {
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 12px;
+            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 20px;
             display: inline-block;
+            margin-bottom: 15px;
         }
         .rarity-common { background: rgba(0,255,133,0.2); color: #00FF85; }
         .rarity-rare { background: rgba(185,66,255,0.2); color: #B942FF; }
@@ -195,11 +185,12 @@
         .watch-btn {
             background: #00FF85;
             color: black;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 12px 25px;
+            border-radius: 30px;
             text-decoration: none;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
+            display: inline-block;
         }
         
         .tab-content { display: none; padding: 20px; }
@@ -293,6 +284,26 @@
             cursor: pointer;
             width: 100%;
         }
+        
+        .sell-btn {
+            background: rgba(255,255,255,0.1);
+            color: #FFD700;
+            border: 1px solid #FFD700;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .close-modal {
+            margin-top: 20px;
+            background: #333;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -300,8 +311,8 @@
         <div class="header">
             <h1>🔥 MEMCASE</h1>
             <div class="balance">
-                <div>🪙 <span id="coins">100</span></div>
-                <div>💎 <span id="crystals">5</span></div>
+                <div>🪙 <span id="coins">500</span></div>
+                <div>💎 <span id="crystals">10</span></div>
                 <div>🎯 <span id="combo">0</span></div>
             </div>
         </div>
@@ -334,9 +345,9 @@
         </div>
         
         <div id="collection-tab" class="tab-content">
-            <h2 style="margin-bottom: 15px;">📦 КОЛЛЕКЦИЯ <span id="collection-count">0</span></h2>
+            <h2 style="margin-bottom: 15px;">📦 МОИ МЕМЫ <span id="collection-count">0</span></h2>
             <div id="collection-list"></div>
-            <button class="recycle-btn" onclick="recycleDuplicates()">🔄 ОБМЕНЯТЬ ДУБЛИКАТЫ (5 → 100 монет)</button>
+            <button class="recycle-btn" onclick="recycleDuplicates()">🔄 ОБМЕНЯТЬ ДУБЛИКАТЫ</button>
         </div>
         
         <div id="tasks-tab" class="tab-content">
@@ -347,18 +358,18 @@
             </div>
             <div class="task-card">
                 <h3>👥 Пригласи друга</h3>
-                <p>+50 монет за приглашение</p>
+                <p>+100 монет за приглашение</p>
                 <button class="task-btn" onclick="inviteFriend()">Поделиться</button>
             </div>
             <div class="task-card">
                 <h3>⚡ Комбо-открытия</h3>
-                <p>Открой 5 кейсов подряд → +10 кристаллов!</p>
+                <p>Открой 5 кейсов подряд → +50 монет!</p>
                 <p>Текущее комбо: <span id="combo-count">0</span>/5</p>
             </div>
             <div class="task-card">
-                <h3>🏆 Собери коллекцию</h3>
-                <p>Собери 10 уникальных мемов → +100 монет</p>
-                <p>Прогресс: <span id="collection-progress">0</span>/10</p>
+                <h3>🏆 Мастер коллекционер</h3>
+                <p>Собери 20 уникальных мемов → +200 монет</p>
+                <p>Прогресс: <span id="collection-progress">0</span>/20</p>
             </div>
         </div>
         
@@ -371,7 +382,7 @@
             <div class="stat-grid">
                 <div class="stat-card"><div>🎁</div><div id="opened-cases">0</div><div>открыто кейсов</div></div>
                 <div class="stat-card"><div>📦</div><div id="unique-memes">0</div><div>уникальных мемов</div></div>
-                <div class="stat-card"><div>⭐</div><div id="legendary-count">0</div><div>легендарных</div></div>
+                <div class="stat-card"><div>💰</div><div id="total-value">0</div><div>стоимость коллекции</div></div>
                 <div class="stat-card"><div>🏆</div><div id="rank">Новичок</div><div>ранг</div></div>
             </div>
         </div>
@@ -393,28 +404,49 @@
         let user = tg.initDataUnsafe?.user || { first_name: 'Игрок', id: Math.floor(Math.random() * 1000000) };
         document.getElementById('user-name').innerText = user.first_name;
         
-        let balance = { coins: 100, crystals: 5 };
+        let balance = { coins: 500, crystals: 10 };
         let collection = [];
         let openedCases = 0;
         let combo = 0;
         let lastOpenTime = null;
         let lastDailyBonus = null;
         
-        const MEMES = {
-            common: [
-                { title: "POV: ты забыл выключить микрофон", rarity: "обычный", preview: "https://media.tenor.com/5iWwZrXqWl0AAAAi/cat-meme.gif", link: "https://tiktok.com/@memes/1" },
-                { title: "Как я сдавал экзамен", rarity: "обычный", preview: "https://media.tenor.com/3oR7wX7K5VkAAAAi/meme-funny.gif", link: "https://youtube.com/shorts/1" },
-                { title: "Жиза на 3 секунды", rarity: "обычный", preview: "https://media.tenor.com/4sXxWrVqY7kAAAAi/funny-cat.gif", link: "https://tiktok.com/@memes/4" }
-            ],
-            rare: [
-                { title: "TikTok Болливуд", rarity: "редкий", preview: "https://media.tenor.com/8qXwR7VvX9kAAAAi/bollywood.gif", link: "https://tiktok.com/@memes/2" },
-                { title: "Подслушано у психолога", rarity: "редкий", preview: "https://media.tenor.com/6yWwZrXqWl0AAAAi/therapist.gif", link: "https://tiktok.com/@memes/3" }
-            ],
-            epic: [
-                { title: "ВИРУС 2024", rarity: "легендарный", preview: "https://media.tenor.com/2pYqLvXq6YgAAAAi/viral.gif", link: "https://youtube.com/shorts/viral" },
-                { title: "Мем года", rarity: "легендарный", preview: "https://media.tenor.com/1pXqLvWq7YgAAAAi/meme-year.gif", link: "https://youtube.com/shorts/meme" }
-            ]
-        };
+        // 50 МЕМОВ с ценами и редкостями
+        const MEMES = [
+            // Обычные мемы (30 шт) - цена 10-30 монет
+            { title: "Черемша", rarity: "обычный", price: 15, preview: "https://media.tenor.com/5iWwZrXqWl0AAAAi/cat-meme.gif", link: "https://tiktok.com/@memes/1" },
+            { title: "Ждун", rarity: "обычный", price: 12, preview: "https://media.tenor.com/3oR7wX7K5VkAAAAi/meme-funny.gif", link: "https://youtube.com/shorts/1" },
+            { title: "Лойс", rarity: "обычный", price: 10, preview: "https://media.tenor.com/4sXxWrVqY7kAAAAi/funny-cat.gif", link: "https://tiktok.com/@memes/2" },
+            { title: "Батон", rarity: "обычный", price: 18, preview: "https://media.tenor.com/6yWwZrXqWl0AAAAi/therapist.gif", link: "https://tiktok.com/@memes/3" },
+            { title: "Сосиська", rarity: "обычный", price: 20, preview: "https://media.tenor.com/7tYyWsXqZ8lAAAAi/grandma.gif", link: "https://tiktok.com/@memes/4" },
+            { title: "Печенька", rarity: "обычный", price: 14, preview: "https://media.tenor.com/8qXwR7VvX9kAAAAi/bollywood.gif", link: "https://tiktok.com/@memes/5" },
+            { title: "Кебаб", rarity: "обычный", price: 22, preview: "https://media.tenor.com/1pXqLvWq7YgAAAAi/meme-year.gif", link: "https://youtube.com/shorts/2" },
+            { title: "Шаурма", rarity: "обычный", price: 16, preview: "https://media.tenor.com/2pYqLvXq6YgAAAAi/viral.gif", link: "https://youtube.com/shorts/3" },
+            { title: "Хлебушек", rarity: "обычный", price: 11, preview: "https://media.tenor.com/3pXqLwYq7ZgAAAAi/funny-dog.gif", link: "https://tiktok.com/@memes/6" },
+            { title: "Курочка", rarity: "обычный", price: 19, preview: "https://media.tenor.com/4qXrLzYq8AhAAAAi/cat-funny.gif", link: "https://tiktok.com/@memes/7" },
+            { title: "Борщ", rarity: "обычный", price: 13, preview: "https://media.tenor.com/5rYsMaZr9BiAAAAi/meme-funny.gif", link: "https://tiktok.com/@memes/8" },
+            { title: "Салат", rarity: "обычный", price: 17, preview: "https://media.tenor.com/6sZtNbZs0CjAAAAi/funny-cat.gif", link: "https://tiktok.com/@memes/9" },
+            { title: "Компот", rarity: "обычный", price: 15, preview: "https://media.tenor.com/7tAuOcAt1DkAAAAi/meme.gif", link: "https://tiktok.com/@memes/10" },
+            { title: "Плов", rarity: "обычный", price: 21, preview: "https://media.tenor.com/8uBvPdBu2ElAAAAi/funny.gif", link: "https://tiktok.com/@memes/11" },
+            { title: "Лапша", rarity: "обычный", price: 14, preview: "https://media.tenor.com/9vCwQeCv3FmAAAAi/cat.gif", link: "https://tiktok.com/@memes/12" },
+            
+            // Редкие мемы (12 шт) - цена 40-80 монет
+            { title: "ТикТок Болливуд", rarity: "редкий", price: 50, preview: "https://media.tenor.com/8qXwR7VvX9kAAAAi/bollywood.gif", link: "https://tiktok.com/@memes/13" },
+            { title: "Подслушано у психолога", rarity: "редкий", price: 65, preview: "https://media.tenor.com/6yWwZrXqWl0AAAAi/therapist.gif", link: "https://tiktok.com/@memes/14" },
+            { title: "Бабушка узнала", rarity: "редкий", price: 45, preview: "https://media.tenor.com/7tYyWsXqZ8lAAAAi/grandma.gif", link: "https://tiktok.com/@memes/15" },
+            { title: "POV: учитель", rarity: "редкий", price: 55, preview: "https://media.tenor.com/4qXrLzYq8AhAAAAi/cat-funny.gif", link: "https://tiktok.com/@memes/16" },
+            { title: "Жиза", rarity: "редкий", price: 70, preview: "https://media.tenor.com/5rYsMaZr9BiAAAAi/meme-funny.gif", link: "https://tiktok.com/@memes/17" },
+            { title: "Кринж", rarity: "редкий", price: 60, preview: "https://media.tenor.com/6sZtNbZs0CjAAAAi/funny-cat.gif", link: "https://tiktok.com/@memes/18" },
+            { title: "Рофл", rarity: "редкий", price: 75, preview: "https://media.tenor.com/7tAuOcAt1DkAAAAi/meme.gif", link: "https://tiktok.com/@memes/19" },
+            { title: "Хайп", rarity: "редкий", price: 80, preview: "https://media.tenor.com/8uBvPdBu2ElAAAAi/funny.gif", link: "https://tiktok.com/@memes/20" },
+            
+            // Легендарные мемы (8 шт) - цена 150-300 монет
+            { title: "ВИРУС 2024", rarity: "легендарный", price: 200, preview: "https://media.tenor.com/2pYqLvXq6YgAAAAi/viral.gif", link: "https://youtube.com/shorts/viral" },
+            { title: "Мем года", rarity: "легендарный", price: 250, preview: "https://media.tenor.com/1pXqLvWq7YgAAAAi/meme-year.gif", link: "https://youtube.com/shorts/meme" },
+            { title: "Гарри Поттер", rarity: "легендарный", price: 180, preview: "https://media.tenor.com/3pXqLwYq7ZgAAAAi/funny-dog.gif", link: "https://youtube.com/shorts/4" },
+            { title: "Шрекс", rarity: "легендарный", price: 220, preview: "https://media.tenor.com/9vCwQeCv3FmAAAAi/cat.gif", link: "https://youtube.com/shorts/5" },
+            { title: "Кинг Конг", rarity: "легендарный", price: 300, preview: "https://media.tenor.com/4qXrLzYq8AhAAAAi/cat-funny.gif", link: "https://youtube.com/shorts/6" },
+        ];
         
         function saveData() {
             localStorage.setItem('memcase_data', JSON.stringify({ balance, collection, openedCases, combo, lastOpenTime, lastDailyBonus }));
@@ -425,7 +457,7 @@
             if (saved) {
                 try {
                     const data = JSON.parse(saved);
-                    balance = data.balance || { coins: 100, crystals: 5 };
+                    balance = data.balance || { coins: 500, crystals: 10 };
                     collection = data.collection || [];
                     openedCases = data.openedCases || 0;
                     combo = data.combo || 0;
@@ -445,14 +477,14 @@
             
             let uniqueCount = new Set(collection.map(m => m.title)).size;
             document.getElementById('unique-memes').innerText = uniqueCount;
-            document.getElementById('collection-count').innerText = uniqueCount;
+            document.getElementById('collection-count').innerText = collection.length;
             document.getElementById('collection-progress').innerText = uniqueCount;
+            
+            let totalValue = collection.reduce((sum, m) => sum + (m.price || 0), 0);
+            document.getElementById('total-value').innerText = totalValue;
             
             let level = Math.floor(uniqueCount / 5) + 1;
             document.getElementById('user-level').innerText = `Уровень ${level}`;
-            
-            let legendaryCount = collection.filter(m => m.rarity === 'легендарный').length;
-            document.getElementById('legendary-count').innerText = legendaryCount;
             
             let ranks = ['Новичок', 'Мемер', 'Рофлан', 'Кринж-лорд', 'Мем-король'];
             let rankIndex = Math.min(Math.floor(uniqueCount / 10), 4);
@@ -475,6 +507,10 @@
                 return;
             }
             
+            // Группируем для подсчета дубликатов
+            let counts = {};
+            collection.forEach(m => counts[m.title] = (counts[m.title] || 0) + 1);
+            
             let unique = [];
             let titles = new Set();
             for (let m of collection) {
@@ -490,9 +526,27 @@
                     <div style="flex:1">
                         <div style="font-weight:bold">${meme.title}</div>
                         <span class="rarity ${getRarityClass(meme.rarity)}">${meme.rarity}</span>
+                        <div style="font-size:11px;color:#00FF85;">💰 ${meme.price} монет</div>
+                    </div>
+                    <div>
+                        ${counts[meme.title] > 1 ? `<span style="color:orange;">×${counts[meme.title]}</span>` : ''}
+                        <button class="sell-btn" onclick="sellMeme('${meme.title}')">Продать</button>
                     </div>
                 </div>
             `).join('');
+        }
+        
+        function sellMeme(title) {
+            let index = collection.findIndex(m => m.title === title);
+            if (index !== -1) {
+                let meme = collection[index];
+                let sellPrice = Math.floor(meme.price / 2);
+                balance.coins += sellPrice;
+                collection.splice(index, 1);
+                saveData();
+                updateUI();
+                tg.showAlert(`💰 Ты продал "${title}" за ${sellPrice} монет!`);
+            }
         }
         
         function recycleDuplicates() {
@@ -500,27 +554,28 @@
             collection.forEach(m => counts[m.title] = (counts[m.title] || 0) + 1);
             
             let recycled = 0;
+            let newCollection = [];
+            
             for (let title in counts) {
-                recycled += Math.floor(counts[title] / 5);
+                let duplicates = Math.floor(counts[title] / 3);
+                recycled += duplicates;
+                let keepCount = counts[title] % 3;
+                
+                for (let i = 0; i < keepCount; i++) {
+                    let meme = collection.find(m => m.title === title);
+                    if (meme) newCollection.push(meme);
+                }
             }
             
             if (recycled >= 1) {
-                let newCollection = [];
-                for (let title in counts) {
-                    let keepCount = counts[title] % 5;
-                    for (let i = 0; i < keepCount; i++) {
-                        let meme = collection.find(m => m.title === title);
-                        if (meme) newCollection.push(meme);
-                    }
-                }
                 collection = newCollection;
-                let reward = recycled * 100;
+                let reward = recycled * 50;
                 balance.coins += reward;
                 saveData();
                 updateUI();
-                tg.showAlert(`🔄 Обменяно ${recycled * 5} дубликатов! +${reward} монет`);
+                tg.showAlert(`🔄 Обменяно ${recycled * 3} дубликатов! +${reward} монет`);
             } else {
-                tg.showAlert(`Нужно 5 дубликатов для обмена! У тебя меньше`);
+                tg.showAlert(`Нужно 3 дубликата для обмена!`);
             }
         }
         
@@ -560,51 +615,46 @@
                 }
                 lastOpenTime = Date.now();
             } else if (caseType === 'friend') {
-                inviteFriend();
+                let link = `https://t.me/${tg.initDataUnsafe?.user?.username || 'memcasek_bot'}?start=ref_${user.id}`;
+                navigator.clipboard.writeText(link);
+                tg.showAlert('👥 Ссылка-приглашение скопирована! Отправь другу. Когда друг зарегистрируется, вы оба получите бонус!');
                 return;
             }
             
             tg.HapticFeedback.impactOccurred('heavy');
             
-            // Анимация
             let caseCard = document.querySelector(`.case-card.${caseType}`);
             if (caseCard) {
                 caseCard.classList.add('shake', 'flash');
                 setTimeout(() => caseCard.classList.remove('shake', 'flash'), 500);
             }
             
-            // Модальное окно
             let modal = document.createElement('div');
             modal.className = 'modal';
             modal.innerHTML = `
                 <div class="modal-content">
                     <div style="font-size:60px;">🎲</div>
                     <h3>ВСКРЫТИЕ...</h3>
-                    <div class="loading-bar"><div class="loading-progress"></div></div>
                 </div>
             `;
             document.body.appendChild(modal);
             
             setTimeout(() => {
-                let possibleMemes = [];
-                if (caseType === 'common') possibleMemes = [...MEMES.common];
-                else if (caseType === 'rare') possibleMemes = [...MEMES.common, ...MEMES.rare];
-                else possibleMemes = [...MEMES.common, ...MEMES.rare, ...MEMES.epic];
+                let availableMemes = [];
+                if (caseType === 'common') availableMemes = MEMES.filter(m => m.rarity === 'обычный');
+                else if (caseType === 'rare') availableMemes = MEMES.filter(m => m.rarity === 'обычный' || m.rarity === 'редкий');
+                else availableMemes = MEMES;
                 
-                let newMemes = [];
-                for (let i = 0; i < 3; i++) {
-                    let randomMeme = possibleMemes[Math.floor(Math.random() * possibleMemes.length)];
-                    newMemes.push(randomMeme);
-                    collection.push({...randomMeme});
-                }
+                let randomMeme = availableMemes[Math.floor(Math.random() * availableMemes.length)];
+                collection.push({...randomMeme});
                 
                 openedCases++;
                 combo++;
                 balance.coins += 10;
                 
                 if (combo >= 5) {
-                    tg.showAlert('⚡ КОМБО! +10 кристаллов!');
-                    balance.crystals += 10;
+                    tg.showAlert('⚡ КОМБО! +50 монет!');
+                    balance.coins += 50;
                     combo = 0;
                 }
                 
@@ -613,27 +663,18 @@
                 modal.remove();
                 
                 let container = document.getElementById('memes-container');
-                container.innerHTML = '<h3 style="margin:20px;">🎉 ТЫ ПОЛУЧИЛ:</h3>';
-                newMemes.forEach((meme, idx) => {
-                    container.innerHTML += `
-                        <div class="meme-card fly-in" style="animation-delay: ${idx * 0.1}s">
-                            <img src="${meme.preview}" class="meme-preview">
-                            <div class="meme-info">
-                                <div class="meme-title">${meme.title}</div>
-                                <span class="rarity ${getRarityClass(meme.rarity)}">${meme.rarity}</span>
-                            </div>
-                            <a href="${meme.link}" target="_blank" class="watch-btn">Смотреть →</a>
-                        </div>
-                    `;
-                });
+                container.innerHTML = `
+                    <div class="meme-card fly-in">
+                        <img src="${randomMeme.preview}" class="meme-image">
+                        <div class="meme-title">${randomMeme.title}</div>
+                        <div class="rarity ${getRarityClass(randomMeme.rarity)}">${randomMeme.rarity}</div>
+                        <div class="meme-price">💰 Стоимость: ${randomMeme.price} монет</div>
+                        <a href="${randomMeme.link}" target="_blank" class="watch-btn">🎬 Смотреть оригинал →</a>
+                        <div><button class="close-modal" onclick="document.getElementById('memes-container').innerHTML = ''">✖ Закрыть</button></div>
+                    </div>
+                `;
                 
-                setTimeout(() => {
-                    if (document.getElementById('memes-container')) {
-                        document.getElementById('memes-container').innerHTML = '';
-                    }
-                }, 8000);
-                
-                tg.sendData(JSON.stringify({ action: 'open_case', type: caseType }));
+                tg.sendData(JSON.stringify({ action: 'open_case', type: caseType, meme: randomMeme.title }));
             }, 1000);
         }
         
