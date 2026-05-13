@@ -21,7 +21,6 @@
             min-height: 100vh;
         }
         
-        /* Киберпанк сетка */
         body::before {
             content: '';
             position: fixed;
@@ -43,7 +42,6 @@
             padding-bottom: 70px;
         }
         
-        /* Хедер */
         .header {
             background: rgba(0,0,0,0.95);
             padding: 20px;
@@ -74,7 +72,6 @@
             font-weight: bold;
         }
         
-        /* Кейсы в сетке 2x2 */
         .cases-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -92,10 +89,7 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
         
-        .case-card:active {
-            transform: scale(0.95);
-        }
-        
+        .case-card:active { transform: scale(0.95); }
         .case-card.common { border-top: 3px solid #00FF85; }
         .case-card.rare { border-top: 3px solid #B942FF; }
         .case-card.epic { border-top: 3px solid #FFD700; }
@@ -106,7 +100,6 @@
         .case-price { font-size: 12px; color: #00FF85; }
         .case-cooldown { font-size: 10px; color: gray; margin-top: 8px; }
         
-        /* Анимации */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-8px); }
@@ -119,21 +112,14 @@
         }
         
         @keyframes flyIn {
-            from {
-                opacity: 0;
-                transform: translateY(50px) rotate(-5deg);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) rotate(0deg);
-            }
+            from { opacity: 0; transform: translateY(50px) rotate(-5deg); }
+            to { opacity: 1; transform: translateY(0) rotate(0deg); }
         }
         
         .shake { animation: shake 0.3s ease-in-out; }
         .flash { animation: flash 0.2s ease; }
         .fly-in { animation: flyIn 0.4s ease-out; }
         
-        /* Модальное окно открытия */
         .modal {
             position: fixed;
             top: 0;
@@ -176,7 +162,6 @@
             to { width: 100%; }
         }
         
-        /* Карточки мемов */
         .meme-card {
             background: rgba(255,255,255,0.05);
             border-radius: 20px;
@@ -217,7 +202,6 @@
             font-weight: bold;
         }
         
-        /* Вкладки */
         .tab-content { display: none; padding: 20px; }
         .tab-content.active { display: block; }
         
@@ -248,7 +232,6 @@
         .nav-btn.active { color: #00FF85; transform: scale(1.1); }
         .nav-label { font-size: 11px; display: block; margin-top: 4px; }
         
-        /* Коллекция */
         .collection-item {
             background: rgba(255,255,255,0.05);
             border-radius: 16px;
@@ -259,7 +242,6 @@
             gap: 12px;
         }
         
-        /* Задания */
         .task-card {
             background: rgba(255,255,255,0.05);
             border-radius: 20px;
@@ -277,7 +259,6 @@
             cursor: pointer;
         }
         
-        /* Профиль */
         .profile-stats {
             background: linear-gradient(135deg, rgba(0,255,133,0.1), rgba(185,66,255,0.1));
             border-radius: 30px;
@@ -301,7 +282,6 @@
             text-align: center;
         }
         
-        /* Кнопка ресайкла */
         .recycle-btn {
             background: linear-gradient(135deg, #B942FF, #00FF85);
             border: none;
@@ -326,29 +306,25 @@
             </div>
         </div>
         
-        <!-- КЕЙСЫ -->
         <div id="cases-tab" class="tab-content active">
             <div class="cases-grid">
-                <div class="case-card common" data-case="common">
+                <div class="case-card common" onclick="openCase('common')">
                     <div class="case-icon">🎁</div>
                     <div class="case-title">ОБЫЧНЫЙ</div>
                     <div class="case-price">Бесплатно / 30 мин</div>
                     <div class="case-cooldown" id="cooldown-common">Доступно</div>
                 </div>
-                
-                <div class="case-card rare" data-case="rare">
+                <div class="case-card rare" onclick="openCase('rare')">
                     <div class="case-icon">💎</div>
                     <div class="case-title">РЕДКИЙ</div>
                     <div class="case-price">100 монет</div>
                 </div>
-                
-                <div class="case-card epic" data-case="epic">
+                <div class="case-card epic" onclick="openCase('epic')">
                     <div class="case-icon">👑</div>
                     <div class="case-title">ЭПИЧЕСКИЙ</div>
                     <div class="case-price">10 кристаллов</div>
                 </div>
-                
-                <div class="case-card friend" data-case="friend">
+                <div class="case-card friend" onclick="openCase('friend')">
                     <div class="case-icon">👥</div>
                     <div class="case-title">ДРУЖЕСКИЙ</div>
                     <div class="case-price">Открой с другом</div>
@@ -357,14 +333,12 @@
             <div id="memes-container"></div>
         </div>
         
-        <!-- КОЛЛЕКЦИЯ -->
         <div id="collection-tab" class="tab-content">
             <h2 style="margin-bottom: 15px;">📦 КОЛЛЕКЦИЯ <span id="collection-count">0</span></h2>
             <div id="collection-list"></div>
-            <button class="recycle-btn" onclick="recycleDuplicates()">🔄 ОБМЕНЯТЬ ДУБЛИКАТЫ (5 → редкий кейс)</button>
+            <button class="recycle-btn" onclick="recycleDuplicates()">🔄 ОБМЕНЯТЬ ДУБЛИКАТЫ (5 → 100 монет)</button>
         </div>
         
-        <!-- ЗАДАНИЯ -->
         <div id="tasks-tab" class="tab-content">
             <div class="task-card">
                 <h3>🎁 Ежедневный бонус</h3>
@@ -378,7 +352,7 @@
             </div>
             <div class="task-card">
                 <h3>⚡ Комбо-открытия</h3>
-                <p>Открой 5 кейсов подряд → эпический кейс бесплатно!</p>
+                <p>Открой 5 кейсов подряд → +10 кристаллов!</p>
                 <p>Текущее комбо: <span id="combo-count">0</span>/5</p>
             </div>
             <div class="task-card">
@@ -388,7 +362,6 @@
             </div>
         </div>
         
-        <!-- ПРОФИЛЬ -->
         <div id="profile-tab" class="tab-content">
             <div class="profile-stats">
                 <div class="profile-avatar">👤</div>
@@ -396,34 +369,18 @@
                 <p id="user-level">Уровень 1</p>
             </div>
             <div class="stat-grid">
-                <div class="stat-card">
-                    <div>🎁</div>
-                    <div id="opened-cases">0</div>
-                    <div>открыто кейсов</div>
-                </div>
-                <div class="stat-card">
-                    <div>📦</div>
-                    <div id="unique-memes">0</div>
-                    <div>уникальных мемов</div>
-                </div>
-                <div class="stat-card">
-                    <div>⭐</div>
-                    <div id="legendary-count">0</div>
-                    <div>легендарных</div>
-                </div>
-                <div class="stat-card">
-                    <div>🏆</div>
-                    <div id="rank">Новичок</div>
-                    <div>ранг</div>
-                </div>
+                <div class="stat-card"><div>🎁</div><div id="opened-cases">0</div><div>открыто кейсов</div></div>
+                <div class="stat-card"><div>📦</div><div id="unique-memes">0</div><div>уникальных мемов</div></div>
+                <div class="stat-card"><div>⭐</div><div id="legendary-count">0</div><div>легендарных</div></div>
+                <div class="stat-card"><div>🏆</div><div id="rank">Новичок</div><div>ранг</div></div>
             </div>
         </div>
         
         <div class="nav">
-            <button class="nav-btn active" data-tab="cases">🎁<span class="nav-label">Кейсы</span></button>
-            <button class="nav-btn" data-tab="collection">📦<span class="nav-label">Коллекция</span></button>
-            <button class="nav-btn" data-tab="tasks">📋<span class="nav-label">Задания</span></button>
-            <button class="nav-btn" data-tab="profile">👤<span class="nav-label">Профиль</span></button>
+            <button class="nav-btn active" onclick="showTab('cases')">🎁<span class="nav-label">Кейсы</span></button>
+            <button class="nav-btn" onclick="showTab('collection')">📦<span class="nav-label">Коллекция</span></button>
+            <button class="nav-btn" onclick="showTab('tasks')">📋<span class="nav-label">Задания</span></button>
+            <button class="nav-btn" onclick="showTab('profile')">👤<span class="nav-label">Профиль</span></button>
         </div>
     </div>
 
@@ -436,7 +393,6 @@
         let user = tg.initDataUnsafe?.user || { first_name: 'Игрок', id: Math.floor(Math.random() * 1000000) };
         document.getElementById('user-name').innerText = user.first_name;
         
-        // Данные
         let balance = { coins: 100, crystals: 5 };
         let collection = [];
         let openedCases = 0;
@@ -444,7 +400,6 @@
         let lastOpenTime = null;
         let lastDailyBonus = null;
         
-        // Мемы
         const MEMES = {
             common: [
                 { title: "POV: ты забыл выключить микрофон", rarity: "обычный", preview: "https://media.tenor.com/5iWwZrXqWl0AAAAi/cat-meme.gif", link: "https://tiktok.com/@memes/1" },
@@ -468,35 +423,39 @@
         function loadData() {
             const saved = localStorage.getItem('memcase_data');
             if (saved) {
-                const data = JSON.parse(saved);
-                balance = data.balance;
-                collection = data.collection;
-                openedCases = data.openedCases;
-                combo = data.combo;
-                lastOpenTime = data.lastOpenTime;
-                lastDailyBonus = data.lastDailyBonus;
-                updateUI();
+                try {
+                    const data = JSON.parse(saved);
+                    balance = data.balance || { coins: 100, crystals: 5 };
+                    collection = data.collection || [];
+                    openedCases = data.openedCases || 0;
+                    combo = data.combo || 0;
+                    lastOpenTime = data.lastOpenTime || null;
+                    lastDailyBonus = data.lastDailyBonus || null;
+                } catch(e) { console.log(e); }
             }
+            updateUI();
         }
         
         function updateUI() {
             document.getElementById('coins').innerText = balance.coins;
             document.getElementById('crystals').innerText = balance.crystals;
             document.getElementById('combo').innerText = combo;
-            document.getElementById('opened-cases').innerText = openedCases;
-            document.getElementById('unique-memes').innerText = collection.length;
-            document.getElementById('collection-count').innerText = collection.length;
-            document.getElementById('collection-progress').innerText = collection.length;
             document.getElementById('combo-count').innerText = combo;
+            document.getElementById('opened-cases').innerText = openedCases;
             
-            let level = Math.floor(collection.length / 5) + 1;
+            let uniqueCount = new Set(collection.map(m => m.title)).size;
+            document.getElementById('unique-memes').innerText = uniqueCount;
+            document.getElementById('collection-count').innerText = uniqueCount;
+            document.getElementById('collection-progress').innerText = uniqueCount;
+            
+            let level = Math.floor(uniqueCount / 5) + 1;
             document.getElementById('user-level').innerText = `Уровень ${level}`;
             
             let legendaryCount = collection.filter(m => m.rarity === 'легендарный').length;
             document.getElementById('legendary-count').innerText = legendaryCount;
             
             let ranks = ['Новичок', 'Мемер', 'Рофлан', 'Кринж-лорд', 'Мем-король'];
-            let rankIndex = Math.min(Math.floor(collection.length / 10), 4);
+            let rankIndex = Math.min(Math.floor(uniqueCount / 10), 4);
             document.getElementById('rank').innerText = ranks[rankIndex];
             
             renderCollection();
@@ -516,57 +475,52 @@
                 return;
             }
             
-            // Группируем по названию для подсчета дубликатов
-            let counts = {};
-            collection.forEach(m => counts[m.title] = (counts[m.title] || 0) + 1);
+            let unique = [];
+            let titles = new Set();
+            for (let m of collection) {
+                if (!titles.has(m.title)) {
+                    titles.add(m.title);
+                    unique.push(m);
+                }
+            }
             
-            container.innerHTML = collection.map((meme, idx) => `
+            container.innerHTML = unique.map(meme => `
                 <div class="collection-item">
                     <img src="${meme.preview}" style="width:50px;height:50px;border-radius:10px;object-fit:cover;">
                     <div style="flex:1">
                         <div style="font-weight:bold">${meme.title}</div>
                         <span class="rarity ${getRarityClass(meme.rarity)}">${meme.rarity}</span>
-                        ${counts[meme.title] > 1 ? `<span style="color:orange;margin-left:8px;">×${counts[meme.title]}</span>` : ''}
                     </div>
                 </div>
-            `).filter((v,i,a) => a.findIndex(t => t.includes(meme.title)) === i).join('');
-        }
-        
-        function getDuplicatesCount() {
-            let counts = {};
-            collection.forEach(m => counts[m.title] = (counts[m.title] || 0) + 1);
-            let duplicates = 0;
-            for (let title in counts) {
-                duplicates += Math.floor(counts[title] / 5) * 5;
-            }
-            return duplicates;
+            `).join('');
         }
         
         function recycleDuplicates() {
             let counts = {};
             collection.forEach(m => counts[m.title] = (counts[m.title] || 0) + 1);
             
-            let newCollection = [];
             let recycled = 0;
-            
             for (let title in counts) {
-                let keepCount = counts[title] % 5;
-                recycled += Math.floor(counts[title] / 5) * 5;
-                for (let i = 0; i < keepCount; i++) {
-                    let meme = collection.find(m => m.title === title);
-                    if (meme) newCollection.push(meme);
-                }
+                recycled += Math.floor(counts[title] / 5);
             }
             
-            if (recycled >= 5) {
+            if (recycled >= 1) {
+                let newCollection = [];
+                for (let title in counts) {
+                    let keepCount = counts[title] % 5;
+                    for (let i = 0; i < keepCount; i++) {
+                        let meme = collection.find(m => m.title === title);
+                        if (meme) newCollection.push(meme);
+                    }
+                }
                 collection = newCollection;
-                let extraCases = Math.floor(recycled / 5);
-                balance.coins += extraCases * 100;
-                tg.showAlert(`🔄 Обменяно ${recycled} дубликатов! +${extraCases * 100} монет`);
+                let reward = recycled * 100;
+                balance.coins += reward;
                 saveData();
                 updateUI();
+                tg.showAlert(`🔄 Обменяно ${recycled * 5} дубликатов! +${reward} монет`);
             } else {
-                tg.showAlert(`Нужно 5 дубликатов для обмена! У тебя: ${recycled}`);
+                tg.showAlert(`Нужно 5 дубликатов для обмена! У тебя меньше`);
             }
         }
         
@@ -584,26 +538,28 @@
             }
         }
         
-        async function openCase(caseType) {
-            let price = 0;
-            let priceType = null;
-            
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(`${tab}-tab`).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.nav-btn').classList.add('active');
+        }
+        
+        function openCase(caseType) {
             if (caseType === 'rare') {
                 if (balance.coins < 100) { tg.showAlert('❌ Недостаточно монет!'); return; }
-                price = 100;
-                priceType = 'coins';
+                balance.coins -= 100;
             } else if (caseType === 'epic') {
                 if (balance.crystals < 10) { tg.showAlert('❌ Недостаточно кристаллов!'); return; }
-                price = 10;
-                priceType = 'crystals';
+                balance.crystals -= 10;
             } else if (caseType === 'common') {
                 if (lastOpenTime && (Date.now() - lastOpenTime) < 30 * 60 * 1000) {
                     const remaining = Math.ceil((30 * 60 * 1000 - (Date.now() - lastOpenTime)) / 60000);
                     tg.showAlert(`⏰ Кейс будет доступен через ${remaining} минут!`);
                     return;
                 }
+                lastOpenTime = Date.now();
             } else if (caseType === 'friend') {
-                tg.showAlert('👥 Отправь другу ссылку и откройте кейс вместе!');
                 inviteFriend();
                 return;
             }
@@ -611,14 +567,14 @@
             tg.HapticFeedback.impactOccurred('heavy');
             
             // Анимация
-            const caseCard = document.querySelector(`.case-card[data-case="${caseType}"]`);
+            let caseCard = document.querySelector(`.case-card.${caseType}`);
             if (caseCard) {
                 caseCard.classList.add('shake', 'flash');
                 setTimeout(() => caseCard.classList.remove('shake', 'flash'), 500);
             }
             
             // Модальное окно
-            const modal = document.createElement('div');
+            let modal = document.createElement('div');
             modal.className = 'modal';
             modal.innerHTML = `
                 <div class="modal-content">
@@ -630,41 +586,36 @@
             document.body.appendChild(modal);
             
             setTimeout(() => {
-                // Определяем возможные мемы
                 let possibleMemes = [];
                 if (caseType === 'common') possibleMemes = [...MEMES.common];
                 else if (caseType === 'rare') possibleMemes = [...MEMES.common, ...MEMES.rare];
                 else possibleMemes = [...MEMES.common, ...MEMES.rare, ...MEMES.epic];
                 
-                const newMemes = [];
+                let newMemes = [];
                 for (let i = 0; i < 3; i++) {
-                    const randomMeme = possibleMemes[Math.floor(Math.random() * possibleMemes.length)];
+                    let randomMeme = possibleMemes[Math.floor(Math.random() * possibleMemes.length)];
                     newMemes.push(randomMeme);
                     collection.push({...randomMeme});
                 }
                 
-                if (priceType === 'coins') balance.coins -= price;
-                if (priceType === 'crystals') balance.crystals -= price;
-                
-                if (caseType === 'common') lastOpenTime = Date.now();
-                
                 openedCases++;
                 combo++;
+                balance.coins += 10;
                 
                 if (combo >= 5) {
-                    tg.showAlert('⚡ КОМБО! Ты получил эпический кейс бесплатно!');
+                    tg.showAlert('⚡ КОМБО! +10 кристаллов!');
                     balance.crystals += 10;
                     combo = 0;
                 }
                 
-                balance.coins += 10;
                 saveData();
                 updateUI();
                 modal.remove();
                 
-                const container = document.getElementById('memes-container');
-                container.innerHTML = '<h3 style="margin:20px;">🎉 ТЫ ПОЛУЧИЛ:</h3>' +
-                    newMemes.map((meme, idx) => `
+                let container = document.getElementById('memes-container');
+                container.innerHTML = '<h3 style="margin:20px;">🎉 ТЫ ПОЛУЧИЛ:</h3>';
+                newMemes.forEach((meme, idx) => {
+                    container.innerHTML += `
                         <div class="meme-card fly-in" style="animation-delay: ${idx * 0.1}s">
                             <img src="${meme.preview}" class="meme-preview">
                             <div class="meme-info">
@@ -673,11 +624,16 @@
                             </div>
                             <a href="${meme.link}" target="_blank" class="watch-btn">Смотреть →</a>
                         </div>
-                    `).join('');
+                    `;
+                });
                 
-                tg.sendData(JSON.stringify({ action: 'open_case', type: caseType, memes: newMemes.map(m => m.title) }));
+                setTimeout(() => {
+                    if (document.getElementById('memes-container')) {
+                        document.getElementById('memes-container').innerHTML = '';
+                    }
+                }, 8000);
                 
-                setTimeout(() => container.innerHTML = '', 8000);
+                tg.sendData(JSON.stringify({ action: 'open_case', type: caseType }));
             }, 1000);
         }
         
@@ -694,30 +650,12 @@
         }
         
         function inviteFriend() {
-            const link = `https://t.me/memcasek_bot?start=ref_${user.id}`;
+            let link = `https://t.me/memcasek_bot?start=ref_${user.id}`;
             navigator.clipboard.writeText(link);
             tg.showAlert('📎 Ссылка скопирована! Поделись с друзьями');
         }
         
-        // Навигация
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tab = btn.dataset.tab;
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-                document.getElementById(`${tab}-tab`).classList.add('active');
-            });
-        });
-        
-        document.querySelectorAll('.case-card').forEach(card => {
-            const caseType = card.dataset.case;
-            card.addEventListener('click', () => openCase(caseType));
-        });
-        
         loadData();
-        updateUI();
-        updateCooldownDisplay();
     </script>
 </body>
 </html>
